@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--    <style name="Theme.Mayer" parent="android:Theme.Material.Light.NoActionBar" />-->
+    <style name="Base.Theme.Mayer" parent="Theme.Material3.DayNight.NoActionBar" />
+
+    <style name="Theme.Mayer" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <!--   create a fullscreen style -->
+    <style name="Base.Theme.Mayer.Fullscreen" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+</resources>

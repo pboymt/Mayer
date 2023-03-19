@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+
+    <application
+        android:name=".MayerApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Base.Theme.Mayer"
+        tools:targetApi="31">
+        <activity
+            android:name=".ui.prefs.PrefScriptRingActivity"
+            android:exported="false"
+            android:label="@string/title_activity_pref_script_ring"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.Mayer"
+            tools:ignore="LockedOrientationActivity" />
+
+        <service
+            android:name=".MayerFloatingService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".MayerMonitorService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType=""
+            android:permission="TODO" />
+
+        <activity
+            android:name=".ui.AboutActivity"
+            android:exported="false"
+            android:label="@string/title_activity_about"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.Mayer"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".ui.OverlaySettingActivity"
+            android:exported="false"
+            android:label="@string/title_activity_overlay_setting"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.Mayer"
+            tools:ignore="LockedOrientationActivity" />
+
+        <service
+            android:name=".MayerAccessibilityService"
+            android:exported="true"
+            android:label="@string/accessibility_service_name"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Mayer"
+            tools:ignore="LockedOrientationActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

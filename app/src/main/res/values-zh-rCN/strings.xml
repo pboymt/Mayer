@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mayer</string>
+    <string name="accessibility_service_description">用于截图和屏幕手势。</string>
+    <string name="title_activity_about">关于</string>
+    <string name="accessibility_service_name">Mayer的无障碍服务</string>
+    <string name="title_activity_overlay_setting">悬浮窗设置</string>
+    <string name="btn_open_activity_about">打开关于界面</string>
+    <string name="btn_take_screenshot_by_accessibility">使用无障碍服务截图</string>
+    <string name="status_title_accessibility_service">无障碍服务</string>
+    <string name="status_title_foreground_service">前台服务</string>
+    <string name="status_title_floating_window">悬浮窗</string>
+    <string name="btn_open_activity_overlay_setting">打开悬浮窗设置</string>
+    <string name="status_enabled">已开启</string>
+    <string name="status_disabled">点击启动</string>
+    <string name="tab_home">主页</string>
+    <string name="tab_scripts">脚本</string>
+    <string name="tab_settings">设置</string>
+    <string name="title_activity_pref_script_ring">铃铛脚本设置界面</string>
+</resources>
