@@ -48,16 +48,18 @@ jobs:
         run: |
           echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;23.1.7779620" --sdk_root=${ANDROID_SDK_ROOT} &> /dev/null
 
-      - name: Gradle Build
-        uses: gradle/gradle-build-action@v2
-#        with:
-#          gradle-home-cache-cleanup: true
-#          arguments: assembleRelease
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Gradle Build
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-home-cache-cleanup: true
+          arguments: assembleRelease
+#
+#      - name: Build with Gradle
+#        run: ./gradlew build
+      - name: List APKs
+        run: find ./ -name "*.apk"
 
       - name: Update ARM64
         uses: actions/upload-artifact@v3
