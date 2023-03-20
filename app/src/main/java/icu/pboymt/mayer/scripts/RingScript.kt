@@ -1,6 +1,7 @@
 package icu.pboymt.mayer.scripts
 
-import icu.pboymt.mayer.assets.Templates
+import androidx.annotation.Keep
+import icu.pboymt.mayer.assets.Tpls
 import icu.pboymt.mayer.runner.*
 import icu.pboymt.mayer.utils.PrefKey
 import icu.pboymt.mayer.utils.PrefKeys
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.map
 )
 class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
 
+    @Keep
     data class Settings(
         /** 是否自动开始 */
         val autoStart: Boolean,
@@ -37,6 +39,7 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
         val staminaAllowStone: Boolean,
     )
 
+    @Keep
     enum class State {
         START_GAME,
         WAIT_RING,
@@ -62,12 +65,12 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
 
     //    private var preferStamina = Templates.BTN_STAMINA_SMALL
     private var staminaList = mutableSetOf(
-        Templates.BTN_STAMINA_GSMALL,
-        Templates.BTN_STAMINA_SMALL,
-        Templates.BTN_STAMINA_MEDIUM,
-        Templates.BTN_STAMINA_LARGE,
-        Templates.BTN_STAMINA_XNEWYEAR,
-        Templates.BTN_STAMINA_STONE
+        Tpls.BTN_STAMINA_GSMALL,
+        Tpls.BTN_STAMINA_SMALL,
+        Tpls.BTN_STAMINA_MEDIUM,
+        Tpls.BTN_STAMINA_LARGE,
+        Tpls.BTN_STAMINA_XNEWYEAR,
+        Tpls.BTN_STAMINA_STONE
     )
 
     override suspend fun loadSettingsFromDataStore() {
@@ -125,7 +128,7 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
             staminaList.add(settings.preferStamina)
         }
         if (!settings.staminaAllowStone) {
-            staminaList.remove(Templates.BTN_STAMINA_STONE)
+            staminaList.remove(Tpls.BTN_STAMINA_STONE)
         }
     }
 
@@ -173,10 +176,10 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
     /**
      * 等待铃铛
      */
-    @Step(templates = [Templates.RING, Templates.RING_N])
+    @Step(templates = [Tpls.RING, Tpls.RING_N])
     suspend fun waitForRing() {
         log.i("等待铃铛")
-        if (click(Templates.RING) || click(Templates.RING_N)) {
+        if (click(Tpls.RING) || click(Tpls.RING_N)) {
             state = State.OPEN_RING_LIST
         }
         delay(3000L)
@@ -185,10 +188,10 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
     /**
      * 打开铃铛列表
      */
-    @Step(templates = [Templates.BTN_RING_JOIN_ACCEPT, Templates.BTN_RING_JOIN_ACCEPT_N])
+    @Step(templates = [Tpls.BTN_RING_JOIN_ACCEPT, Tpls.BTN_RING_JOIN_ACCEPT_N])
     suspend fun openRingList() {
         log.i("打开铃铛列表")
-        if (exists(Templates.BTN_RING_JOIN_ACCEPT) || exists(Templates.BTN_RING_JOIN_ACCEPT_N)) {
+        if (exists(Tpls.BTN_RING_JOIN_ACCEPT) || exists(Tpls.BTN_RING_JOIN_ACCEPT_N)) {
             state = State.ENTER_RING_ROOM
             delay(1000L)
         } else {
@@ -199,10 +202,10 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
     /**
      * 进入房间
      */
-    @Step(templates = [Templates.BTN_RING_JOIN_ACCEPT, Templates.BTN_RING_JOIN_ACCEPT_N])
+    @Step(templates = [Tpls.BTN_RING_JOIN_ACCEPT, Tpls.BTN_RING_JOIN_ACCEPT_N])
     suspend fun enterRingRoom() {
         log.i("尝试进入房间")
-        if (click(Templates.BTN_RING_JOIN_ACCEPT) || click(Templates.BTN_RING_JOIN_ACCEPT_N)) {
+        if (click(Tpls.BTN_RING_JOIN_ACCEPT) || click(Tpls.BTN_RING_JOIN_ACCEPT_N)) {
             state = State.WAIT_RING_ROOM
             delay(3000L)
         }
@@ -212,17 +215,17 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
     /**
      * 等待进入房间
      */
-    @Step(templates = [Templates.BTN_OK, Templates.HOME_BTN_CHAPTER, Templates.WAITING_ROOM_TEAM_FORM, Templates.RING_N, Templates.RING])
+    @Step(templates = [Tpls.BTN_OK, Tpls.HOME_BTN_CHAPTER, Tpls.WAITING_ROOM_TEAM_FORM, Tpls.RING_N, Tpls.RING])
     suspend fun waitForRoom() {
         log.i("检查是否进入房间")
-        if (exists(Templates.WAITING_ROOM_TEAM_FORM)) {
+        if (exists(Tpls.WAITING_ROOM_TEAM_FORM)) {
             state = State.BEFORE_FIGHT_READY
-        } else if (exists(Templates.RING_N) || exists(Templates.RING)) {
+        } else if (exists(Tpls.RING_N) || exists(Tpls.RING)) {
             state = State.ENTER_RING_ROOM
-        } else if (exists(Templates.HOME_BTN_CHAPTER)) {
+        } else if (exists(Tpls.HOME_BTN_CHAPTER)) {
             state = State.WAIT_RING
-        } else if (exists(Templates.BTN_OK)) {
-            click(Templates.BTN_OK)
+        } else if (exists(Tpls.BTN_OK)) {
+            click(Tpls.BTN_OK)
             state = State.WAIT_RING
         }
         delay(2000L)
@@ -231,20 +234,24 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
     /**
      * 战斗前准备
      */
-    @Step(templates = [Templates.WAITING_ROOM_AUTO_CONTINUE_NO, Templates.WAITING_ROOM_AUTO_CONTINUE_YES])
+    @Step(templates = [Tpls.WAITING_ROOM_AUTO_CONTINUE_NO, Tpls.WAITING_ROOM_AUTO_CONTINUE_YES, Tpls.BTN_OK])
     suspend fun beforeFightReady() {
         log.i("进入战斗前准备")
+        if (click(Tpls.BTN_OK)) {
+            state = State.WAIT_RING
+            return
+        }
         if (settings.autoContinue) {
-            if (exists(Templates.WAITING_ROOM_AUTO_CONTINUE_YES)) {
+            if (exists(Tpls.WAITING_ROOM_AUTO_CONTINUE_YES)) {
                 state = State.FIGHT_READY
             } else {
-                click(Templates.WAITING_ROOM_AUTO_CONTINUE_NO)
+                click(Tpls.WAITING_ROOM_AUTO_CONTINUE_NO)
             }
         } else {
-            if (exists(Templates.WAITING_ROOM_AUTO_CONTINUE_NO)) {
+            if (exists(Tpls.WAITING_ROOM_AUTO_CONTINUE_NO)) {
                 state = State.FIGHT_READY
             } else {
-                click(Templates.WAITING_ROOM_AUTO_CONTINUE_YES)
+                click(Tpls.WAITING_ROOM_AUTO_CONTINUE_YES)
             }
         }
         delay(1000L)
@@ -253,10 +260,14 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
     /**
      * 战斗准备
      */
-    @Step(templates = [Templates.WAITING_ROOM_READY_NO])
+    @Step(templates = [Tpls.WAITING_ROOM_READY_NO, Tpls.BTN_OK])
     suspend fun fightReady() {
         log.i("完成战斗准备")
-        if (click(Templates.WAITING_ROOM_READY_NO)) {
+        if (click(Tpls.BTN_OK)) {
+            state = State.WAIT_RING
+            return
+        }
+        if (!settings.autoContinue && click(Tpls.WAITING_ROOM_READY_NO)) {
             state = State.WAIT_FIGHT
         }
         delay(2000L)
@@ -265,12 +276,12 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
     /**
      * 等待战斗
      */
-    @Step(templates = [Templates.BTN_BATTLE_AUTO_SKILL_ON, Templates.BTN_OK])
+    @Step(templates = [Tpls.BTN_BATTLE_AUTO_SKILL_ON, Tpls.BTN_OK])
     suspend fun waitForFight() {
         log.i("等待战斗")
-        if (exists(Templates.BTN_BATTLE_AUTO_SKILL_ON)) {
+        if (exists(Tpls.BTN_BATTLE_AUTO_SKILL_ON)) {
             state = State.WAIT_FIGHT_FINISHED
-        } else if (click(Templates.BTN_OK)) {
+        } else if (click(Tpls.BTN_OK)) {
             state = State.WAIT_RING
         }
         delay(3000L)
@@ -279,11 +290,11 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
     /**
      * 等待战斗结束
      */
-    @Step(templates = [Templates.BTN_BATTLE_AUTO_SKILL_ON])
+    @Step(templates = [Tpls.BTN_BATTLE_AUTO_SKILL_ON])
     suspend fun waitForFightFinished() {
         log.i("等待战斗结束")
         // TODO: 还未实现判断战斗是否成功，目前是否失败均会增加战斗计数
-        if (!exists(Templates.BTN_BATTLE_AUTO_SKILL_ON)) {
+        if (!exists(Tpls.BTN_BATTLE_AUTO_SKILL_ON)) {
             playCount++
             state =
                 if (settings.autoContinue && (settings.fightCount == 0 || playCount < settings.fightCount)) {
@@ -299,25 +310,25 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
      * 等待返回房间
      */
     @Step(
-        templates = [Templates.BTN_OK, Templates.HOME_BTN_CHAPTER, Templates.WAITING_ROOM_TEAM_FORM,
-            Templates.BTN_CONTINUE, Templates.BTN_RETURN_ROOM, Templates.BTN_BATTLE_AUTO_SKILL_ON, Templates.LABEL_LACK_STAMINA]
+        templates = [Tpls.BTN_OK, Tpls.HOME_BTN_CHAPTER, Tpls.WAITING_ROOM_TEAM_FORM,
+            Tpls.BTN_CONTINUE, Tpls.BTN_RETURN_ROOM, Tpls.BTN_BATTLE_AUTO_SKILL_ON, Tpls.LABEL_LACK_STAMINA, Tpls.LABEL_LEVEL_UP]
     )
     suspend fun waitForReturnToRoom() {
         log.i("等待返回房间")
-        if (exists(Templates.WAITING_ROOM_TEAM_FORM)) { // 回到房间
+        if (exists(Tpls.WAITING_ROOM_TEAM_FORM)) { // 回到房间
             state = State.BEFORE_FIGHT_READY
-        } else if (exists(Templates.LABEL_LACK_STAMINA)) { // 发现体力不足
+        } else if (exists(Tpls.LABEL_LACK_STAMINA)) { // 发现体力不足
             state = State.SELECT_STAMINA
-        } else if (exists(Templates.BTN_BATTLE_AUTO_SKILL_ON)) { // 发现战斗已经开始
+        } else if (exists(Tpls.BTN_BATTLE_AUTO_SKILL_ON)) { // 发现战斗已经开始
             state = State.WAIT_FIGHT_FINISHED
-        } else if (exists(Templates.BTN_OK)) { // 发现无法续战弹窗
-            click(Templates.BTN_OK)
-        } else if (exists(Templates.LABEL_LEVEL_UP)) { // 发现升级弹窗
+        } else if (exists(Tpls.BTN_OK)) { // 发现无法续战弹窗
+            click(Tpls.BTN_OK)
+        } else if (exists(Tpls.LABEL_LEVEL_UP)) { // 发现升级弹窗
             helper.click(display.width / 2, display.height / 3)
-        } else if (exists(Templates.HOME_BTN_CHAPTER)) { // 回到主界面
+        } else if (exists(Tpls.HOME_BTN_CHAPTER)) { // 回到主界面
             state = State.WAIT_RING
         } else {
-            click(Templates.BTN_CONTINUE) || click(Templates.BTN_RETURN_ROOM)
+            click(Tpls.BTN_CONTINUE) || click(Tpls.BTN_RETURN_ROOM)
         }
         delay(2000L)
     }
@@ -325,13 +336,13 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
     /**
      * 等待返回主页
      */
-    @Step(templates = [Templates.HOME_BTN_CHAPTER, Templates.BTN_CONTINUE, Templates.BTN_LEAVE_ROOM])
+    @Step(templates = [Tpls.HOME_BTN_CHAPTER, Tpls.BTN_CONTINUE, Tpls.BTN_LEAVE_ROOM])
     suspend fun waitForReturnToHome() {
         log.i("等待返回主页")
-        if (exists(Templates.HOME_BTN_CHAPTER)) {
+        if (exists(Tpls.HOME_BTN_CHAPTER)) {
             state = State.WAIT_RING
         } else {
-            click(Templates.BTN_CONTINUE) || click(Templates.BTN_LEAVE_ROOM)
+            click(Tpls.BTN_CONTINUE) || click(Tpls.BTN_LEAVE_ROOM)
         }
         delay(2000L)
     }
@@ -340,9 +351,9 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
      * 选择恢复药
      */
     @Step(
-        templates = [Templates.BTN_STAMINA_GSMALL, Templates.BTN_STAMINA_LARGE,
-            Templates.BTN_STAMINA_MEDIUM, Templates.BTN_STAMINA_SMALL, Templates.BTN_STAMINA_XNEWYEAR,
-            Templates.BTN_STAMINA_STONE, Templates.BTN_USE]
+        templates = [Tpls.BTN_STAMINA_GSMALL, Tpls.BTN_STAMINA_LARGE,
+            Tpls.BTN_STAMINA_MEDIUM, Tpls.BTN_STAMINA_SMALL, Tpls.BTN_STAMINA_XNEWYEAR,
+            Tpls.BTN_STAMINA_STONE, Tpls.BTN_USE,Tpls.BTN_OK]
     )
     suspend fun selectStamina() {
         if (!settings.useStamina) {
@@ -354,12 +365,12 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
             log.i("体力恢复一次已达上限，停止脚本")
             return
         }
-        if (click(Templates.BTN_OK)) {
+        if (click(Tpls.BTN_OK)) {
             log.i("成功使用恢复药")
             staminaCount++
             state = State.WAIT_RETURN_TO_ROOM
             return
-        } else if (click(Templates.BTN_USE)) {
+        } else if (click(Tpls.BTN_USE)) {
             log.i("使用恢复药")
             return
         } else {
@@ -374,9 +385,11 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
     }
 
     companion object {
+        @Keep
         const val NAME = "RingScript"
     }
 
+    @Keep
     object Prefs {
         val FightCount = PrefKey(
             key = "mayer.pref.script.ring.fight_count",
@@ -400,7 +413,7 @@ class RingScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
         )
         val PreferStamina = PrefKey(
             key = "mayer.pref.script.ring.prefer_stamina",
-            default = Templates.BTN_STAMINA_GSMALL,
+            default = Tpls.BTN_STAMINA_GSMALL,
             title = "优先使用的体力恢复道具"
         )
         val StaminaAllowStone = PrefKey(

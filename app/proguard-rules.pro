@@ -19,3 +19,17 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-printusage release/usage.txt
+-printseeds release/seeds.txt
+
+-keepnames interface org.tinylog.**
+-keepnames class * implements org.tinylog.**
+-keepclassmembers class * implements org.tinylog.** { <init>(...); }
+
+-keepnames class icu.pboymt.mayer.**
+-keepclassmembers class icu.pboymt.mayer.** { *; }
+
+-dontwarn dalvik.system.VMStack
+-dontwarn java.lang.**
+-dontwarn javax.naming.**
+-dontwarn sun.reflect.Reflection

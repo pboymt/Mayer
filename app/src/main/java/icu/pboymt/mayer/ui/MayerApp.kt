@@ -1,5 +1,6 @@
 package icu.pboymt.mayer.ui
 
+import androidx.annotation.Keep
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -24,6 +25,7 @@ import icu.pboymt.mayer.ui.navigation.MayerNavigationActions
 import icu.pboymt.mayer.ui.navigation.MayerRoute
 import icu.pboymt.mayer.ui.navigation.MayerTopLevelDestination
 
+@Keep
 data class MayerPage(
     val route: String,
     val title: String,

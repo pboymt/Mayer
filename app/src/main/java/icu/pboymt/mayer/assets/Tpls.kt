@@ -1,7 +1,10 @@
 package icu.pboymt.mayer.assets
 
+import androidx.annotation.Keep
+
 @Suppress("unused", "SpellCheckingInspection")
-object Templates {
+@Keep
+object Tpls {
     const val BOSS_LEVEL_HIGH_PLUS = "templates/boss-level-high-plus.png"
     const val BOSS_LEVEL_HIGH = "templates/boss-level-high.png"
     const val BOSS_LEVEL_MIDDLE = "templates/boss-level-middle.png"

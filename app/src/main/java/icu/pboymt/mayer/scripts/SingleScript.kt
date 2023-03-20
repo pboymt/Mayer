@@ -1,5 +1,6 @@
 package icu.pboymt.mayer.scripts
 
+import androidx.annotation.Keep
 import icu.pboymt.mayer.runner.MayerAccessibilityHelper
 import icu.pboymt.mayer.runner.MayerScript
 import icu.pboymt.mayer.runner.Script
@@ -17,6 +18,7 @@ class SingleScript(helper: MayerAccessibilityHelper) : MayerScript(helper) {
     }
 
     companion object {
+        @Keep
         const val NAME = "SingleScript"
     }
 

@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import icu.pboymt.mayer.BuildConfig
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SystemInfo() {
     val ctx = LocalContext.current.applicationContext

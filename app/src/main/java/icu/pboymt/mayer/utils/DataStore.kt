@@ -1,12 +1,14 @@
 package icu.pboymt.mayer.utils
 
 import android.content.Context
+import androidx.annotation.Keep
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 
 const val DATASTORE_NAME = "mayer_datastore"
 
+@Keep
 data class PrefKey<T>(
     val key: String,
     val default: T,
@@ -26,6 +28,7 @@ data class PrefKey<T>(
         }
 }
 
+@Keep
 object PrefKeys {
     object Script {
         object All {

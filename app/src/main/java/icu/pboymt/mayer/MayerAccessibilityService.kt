@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.view.accessibility.AccessibilityEvent
+import androidx.annotation.Keep
 import icu.pboymt.mayer.runner.MayerAccessibilityHelper
 import icu.pboymt.mayer.runner.MayerRunner
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -82,6 +83,7 @@ class MayerAccessibilityService : AccessibilityService() {
         }
     }
 
+    @Keep
     companion object {
         var instance: MayerAccessibilityService? = null
         const val ACTION_SCREENSHOT = "icu.pboymt.mayer.accessibility.ACTION_SCREENSHOT"

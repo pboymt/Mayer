@@ -1,5 +1,6 @@
 package icu.pboymt.mayer.ui.navigation
 
+import androidx.annotation.Keep
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
@@ -9,12 +10,14 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import icu.pboymt.mayer.R
 
+@Keep
 object MayerRoute {
     const val HOME = "Home"
     const val SCRIPTS = "Scripts"
     const val SETTINGS = "Settings"
 }
 
+@Keep
 data class MayerTopLevelDestination(
     val route: String,
     val selectedIcon: ImageVector,
