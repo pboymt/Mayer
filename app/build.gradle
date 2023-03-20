@@ -3,28 +3,34 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
-static def getVersionName(Properties p) {
+def getVersionName() {
+    def p = new Properties()
+    def versionFile = file("version.properties")
+    versionFile.withInputStream { p.load(it) }
     return "${p['version.major']}.${p['version.minor']}.${p['version.patch']}"
 }
 
-static def getVersionCode(Properties p) {
+def getVersionCode() {
+    def p = new Properties()
+    def versionFile = file("version.properties")
+    versionFile.withInputStream { p.load(it) }
     return p['version.code'].toInteger()
 }
+
 
 android {
     namespace 'icu.pboymt.mayer'
     compileSdk 33
 
-    def versionProps = new Properties()
-    def versionFile = file("version.properties")
-    versionFile.withInputStream { versionProps.load(it) }
+    String vName = getVersionName()
+    int vCode = getVersionCode()
 
     defaultConfig {
         applicationId "icu.pboymt.mayer"
         minSdk defaultMinSdkVersion
         targetSdk 33
-        versionCode getVersionCode(versionProps)
-        versionName getVersionName(versionProps)
+        versionCode vCode
+        versionName vName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
