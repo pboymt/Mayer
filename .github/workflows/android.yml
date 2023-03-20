@@ -37,7 +37,9 @@ jobs:
         name: Download OpenCV4Android and extract to :opencv
         run: |
           wget https://github.com/opencv/opencv/releases/download/$OPENCV_VERSION/opencv-$OPENCV_VERSION-android-sdk.zip -O opencv.zip
-          unzip opencv.zip sdk/* -d opencv
+          unzip opencv.zip OpenCV-android-sdk/sdk/* -d extracted-opencv
+          mv extracted-opencv/OpenCV-android-sdk/sdk opencv
+          rm -rf extracted-opencv opencv.zip
 
       - name: Copy opencv.build.gradle.txt to opencv/build.gradle
         run: cp opencv.build.gradle.txt opencv/build.gradle
