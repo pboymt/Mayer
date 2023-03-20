@@ -6,7 +6,7 @@ import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
 import org.tinylog.kotlin.Logger
 
-class MayerImageManager(private val helper: MayerAccessibilityHelper) {
+class MayerTemplatesHelper(private val helper: MayerAccessibilityHelper) {
 
     private val imagePool = mutableMapOf<String, Mat>()
     private val screenWidth = helper.ac.resources.displayMetrics.widthPixels

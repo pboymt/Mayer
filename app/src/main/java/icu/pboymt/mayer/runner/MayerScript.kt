@@ -18,7 +18,7 @@ abstract class MayerScript(val helper: MayerAccessibilityHelper) {
         else -> 0.9
     }
 
-    private val tpl = MayerImageManager(helper)
+    private val tpl = MayerTemplatesHelper(helper)
     protected val ds = helper.ac.applicationContext.dataStore
 
     protected var running = true
