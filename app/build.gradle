@@ -40,9 +40,9 @@ android {
 
     // Output version info
     println "Version name: $vName"
-    println System.getenv("KEYSTORE_PASSWORD")
-    println System.getenv("KEY_ALIAS")
-    println System.getenv("KEY_PASSWORD")
+    println System.getenv("KEYSTORE_PASSWORD").length()
+    println System.getenv("KEY_ALIAS").length()
+    println System.getenv("KEY_PASSWORD").length()
 
     signingConfigs {
         release {
