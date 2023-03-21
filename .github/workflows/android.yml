@@ -11,9 +11,6 @@ env:
   OPENCV_VERSION: 4.7.0
   NDK_VERSION: 23.1.7779620
   IS_ACTIONS: 1
-  KEYSTORE_CONTENT: ${{ secrets.KEYSTORE_CONTENT }}
-  KEYSTORE_FILENAME: app/keystore/release.keystore
-  KEYSTORE_FILENAME_IN_APP: keystore/release.keystore
   KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
   KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
   KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -67,10 +64,10 @@ jobs:
         run: |
           echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;23.1.7779620" --sdk_root=${ANDROID_SDK_ROOT} &> /dev/null
 
-      - name: Extract keystore to $KEYSTORE_FILENAME before ensure the parent directory exists
-        run: |
-          mkdir -p $(dirname $KEYSTORE_FILENAME)
-          echo $KEYSTORE_CONTENT | base64 --decode > $KEYSTORE_FILENAME
+#      - name: Extract keystore to $KEYSTORE_FILENAME before ensure the parent directory exists
+#        run: |
+#          mkdir -p $(dirname $KEYSTORE_FILENAME)
+#          echo $KEYSTORE_CONTENT | base64 --decode > $KEYSTORE_FILENAME
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
