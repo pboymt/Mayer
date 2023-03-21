@@ -38,6 +38,12 @@ android {
         }
     }
 
+    // Output version info
+    println "Version name: $vName"
+    println System.getenv("KEYSTORE_PASSWORD")
+    println System.getenv("KEY_ALIAS")
+    println System.getenv("KEY_PASSWORD")
+
     signingConfigs {
         release {
             storeFile file("keystore/release.jks")
