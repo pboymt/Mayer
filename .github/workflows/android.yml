@@ -11,9 +11,6 @@ env:
   OPENCV_VERSION: 4.7.0
   NDK_VERSION: 23.1.7779620
   IS_ACTIONS: 1
-  KEYSTORE_CONTENT: ${{ secrets.KEYSTORE_CONTENT }}
-  KEYSTORE_FILENAME: app/keystore/release.keystore
-  KEYSTORE_FILENAME_IN_APP: keystore/release.keystore
   KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
   KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
   KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}

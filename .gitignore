@@ -36,3 +36,4 @@ google-services.json
 /opencv
 !/opencv/build.gradle
 app/release
+!/app/keystore/release.keystore
