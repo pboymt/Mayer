@@ -8,9 +8,11 @@ on:
 
 env:
   OPENCV_VERSION: 4.7.0
+  NDK_VERSION: 23.1.7779620
   IS_ACTIONS: 1
   KEYSTORE_CONTENT: ${{ secrets.KEYSTORE_CONTENT }}
   KEYSTORE_FILENAME: app/keystore/release.keystore
+  KEYSTORE_FILENAME_IN_APP: keystore/release.keystore
   KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
   KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
   KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
@@ -50,7 +52,17 @@ jobs:
       - name: Copy opencv.build.gradle.txt to opencv/build.gradle
         run: cp opencv.build.gradle.txt opencv/build.gradle
 
-      - name: Install NDK
+      - name: Cache NDK
+        id: cache-ndk
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.ANDROID_SDK_ROOT }}/ndk/${{ env.NDK_VERSION }}
+          key: cache-ndk-${{ env.NDK_VERSION }}
+          restore-keys: |
+            cache-ndk-
+
+      - if: ${{ steps.cache-ndk.outputs.cache-hit != 'true' }}
+        name: Install NDK
         run: |
           echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;23.1.7779620" --sdk_root=${ANDROID_SDK_ROOT} &> /dev/null
 
