@@ -24,6 +24,7 @@ android {
 
     String vName = getVersionName()
     int vCode = getVersionCode()
+    boolean isActions = System.getenv("IS_ACTIONS") == "1"
 
     defaultConfig {
         applicationId "icu.pboymt.mayer"
@@ -38,10 +39,28 @@ android {
         }
     }
 
+    if (isActions) {
+        String storeFilePath = System.getenv("KEYSTORE_FILENAME")
+        String storePassword = System.getenv("KEYSTORE_PASSWORD")
+        String keyAlias = System.getenv("KEY_ALIAS")
+        String keyPassword = System.getenv("KEY_PASSWORD")
+        signingConfigs {
+            release {
+                storeFile file(storeFilePath)
+                storePassword storePassword
+                keyAlias keyAlias
+                keyPassword keyPassword
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (isActions) {
+                signingConfig signingConfigs.release
+            }
         }
         debug {
             applicationIdSuffix ".debug"
