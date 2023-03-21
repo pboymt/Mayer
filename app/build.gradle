@@ -42,7 +42,7 @@ android {
     if (isActions) {
         signingConfigs {
             release {
-                storeFile file("keystore/release.keystore")
+                storeFile file("keystore/release.jks")
                 storePassword System.getenv("KEYSTORE_PASSWORD")
                 keyAlias System.getenv("KEY_ALIAS")
                 keyPassword System.getenv("KEY_PASSWORD")
