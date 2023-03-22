@@ -28,7 +28,7 @@ import com.alorma.compose.settings.storage.datastore.rememberPreferenceDataStore
 import com.alorma.compose.settings.ui.SettingsSwitch
 import icu.pboymt.mayer.*
 import icu.pboymt.mayer.R
-import icu.pboymt.mayer.runner.Script
+import icu.pboymt.mayer.core.Script
 import icu.pboymt.mayer.scripts.RingScript
 import icu.pboymt.mayer.scripts.SingleScript
 import icu.pboymt.mayer.ui.component.ServiceStatusCard
@@ -348,6 +348,12 @@ class MainActivity : ComponentActivity() {
                     Text(text = stringResource(R.string.btn_open_activity_overlay_setting))
                 },
             )
+        }
+    }
+
+    companion object {
+        init {
+            System.loadLibrary("mayer")
         }
     }
 

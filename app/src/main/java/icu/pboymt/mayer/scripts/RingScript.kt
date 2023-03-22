@@ -2,7 +2,7 @@ package icu.pboymt.mayer.scripts
 
 import androidx.annotation.Keep
 import icu.pboymt.mayer.assets.Tpls
-import icu.pboymt.mayer.runner.*
+import icu.pboymt.mayer.core.*
 import icu.pboymt.mayer.utils.PrefKey
 import icu.pboymt.mayer.utils.PrefKeys
 import kotlinx.coroutines.delay

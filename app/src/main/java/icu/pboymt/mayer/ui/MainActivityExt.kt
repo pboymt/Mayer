@@ -10,7 +10,7 @@ import androidx.activity.ComponentActivity
 import icu.pboymt.mayer.MayerAccessibilityService
 import icu.pboymt.mayer.MayerFloatingService
 import icu.pboymt.mayer.MayerMonitorService
-import icu.pboymt.mayer.runner.MayerScript
+import icu.pboymt.mayer.core.MayerScript
 import icu.pboymt.mayer.scripts.RingScript
 import org.opencv.android.Utils
 import org.opencv.core.Mat

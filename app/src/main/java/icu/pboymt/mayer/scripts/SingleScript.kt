@@ -1,9 +1,9 @@
 package icu.pboymt.mayer.scripts
 
 import androidx.annotation.Keep
-import icu.pboymt.mayer.runner.MayerAccessibilityHelper
-import icu.pboymt.mayer.runner.MayerScript
-import icu.pboymt.mayer.runner.Script
+import icu.pboymt.mayer.core.MayerAccessibilityHelper
+import icu.pboymt.mayer.core.MayerScript
+import icu.pboymt.mayer.core.Script
 
 @Script(
     name = "单人",

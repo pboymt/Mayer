@@ -1,22 +1,17 @@
-package icu.pboymt.mayer.runner
+package icu.pboymt.mayer.core
 
 import android.content.Intent
 import android.util.Log
 import icu.pboymt.mayer.utils.dataStore
 import org.opencv.core.Core
 import org.opencv.core.Mat
+import org.opencv.core.Rect
 import org.opencv.imgproc.Imgproc
 import org.tinylog.kotlin.Logger
 import kotlin.system.measureTimeMillis
 
 @Suppress("unused")
 abstract class MayerScript(val helper: MayerAccessibilityHelper) {
-
-    private val matchTemplateMethod = Imgproc.TM_CCOEFF_NORMED
-    private val defaultThresholds = when (matchTemplateMethod) {
-        Imgproc.TM_SQDIFF -> 0.1
-        else -> 0.9
-    }
 
     private val tpl = MayerTemplatesHelper(helper)
     protected val ds = helper.ac.applicationContext.dataStore
@@ -83,17 +78,46 @@ abstract class MayerScript(val helper: MayerAccessibilityHelper) {
             val screen = helper.takeScreenshotMat()!!
             val point = tpl.getImage(template)!!
             val result = Mat()
-            Imgproc.matchTemplate(screen, point, result, matchTemplateMethod)
+
+            Imgproc.matchTemplate(screen, point, result, Imgproc.TM_CCOEFF_NORMED)
             val minMaxLoc = Core.minMaxLoc(result)
             val maxLoc = minMaxLoc.maxLoc
             x = maxLoc.x.toInt()
             y = maxLoc.y.toInt()
             width = point.width()
             height = point.height()
-            threshold = when (matchTemplateMethod) {
-                Imgproc.TM_SQDIFF -> minMaxLoc.minVal
-                else -> minMaxLoc.maxVal
-            }
+            threshold = minMaxLoc.maxVal
+            result.release()
+        }
+        Log.d(TAG, "Find $template in ${timeCost}ms")
+        return Triple(Pair(x, y), Pair(width, height), threshold)
+    }
+
+    /**
+     * 在屏幕截图中的指定区域查找模板图片，并返回模板尺寸和匹配度最高的点、匹配度
+     */
+    suspend fun findMaxMatchInRegion(
+        template: String,
+        region: Rect
+    ): Triple<Pair<Int, Int>, Pair<Int, Int>, Double> {
+        var x = region.x
+        var y = region.y
+        var width: Int
+        var height: Int
+        var threshold: Double
+        val timeCost = measureTimeMillis {
+            val screen = helper.takeScreenshotMat()!!
+            val point = tpl.getImage(template)!!
+            val result = Mat()
+            val roi = Mat(screen, region)
+            Imgproc.matchTemplate(roi, point, result, Imgproc.TM_CCOEFF_NORMED)
+            val minMaxLoc = Core.minMaxLoc(result)
+            val maxLoc = minMaxLoc.maxLoc
+            x += maxLoc.x.toInt()
+            y += maxLoc.y.toInt()
+            width = point.width()
+            height = point.height()
+            threshold = minMaxLoc.maxVal
             result.release()
         }
         Log.d(TAG, "Find $template in ${timeCost}ms")
@@ -103,13 +127,10 @@ abstract class MayerScript(val helper: MayerAccessibilityHelper) {
     /**
      * 点击图片
      */
-    suspend fun click(template: String, threshold: Double = defaultThresholds): Boolean {
+    suspend fun click(template: String, threshold: Double = 0.9): Boolean {
         val result = findMaxMatch(template)
         val (pos, size, thr) = result
-        when (matchTemplateMethod) {
-            Imgproc.TM_SQDIFF -> if (thr >= threshold) return false
-            else -> if (thr < threshold) return false
-        }
+        if (thr < threshold) return false
         // 根据图片尺寸随机点击
         val (x, y) = pos
         val (width, height) = size
@@ -121,13 +142,10 @@ abstract class MayerScript(val helper: MayerAccessibilityHelper) {
     /**
      * 查找图片是否存在
      */
-    suspend fun exists(template: String, threshold: Double = defaultThresholds): Boolean {
+    suspend fun exists(template: String, threshold: Double = 0.9): Boolean {
         val result = findMaxMatch(template)
         val (_, _, thr) = result
-        return when (matchTemplateMethod) {
-            Imgproc.TM_SQDIFF -> thr < threshold
-            else -> thr >= threshold
-        }
+        return thr >= threshold
     }
 
     /**

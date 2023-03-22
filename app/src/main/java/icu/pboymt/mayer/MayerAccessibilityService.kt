@@ -7,8 +7,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.view.accessibility.AccessibilityEvent
 import androidx.annotation.Keep
-import icu.pboymt.mayer.runner.MayerAccessibilityHelper
-import icu.pboymt.mayer.runner.MayerRunner
+import icu.pboymt.mayer.core.MayerAccessibilityHelper
+import icu.pboymt.mayer.core.MayerRunner
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

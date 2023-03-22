@@ -1,4 +1,4 @@
-package icu.pboymt.mayer.runner
+package icu.pboymt.mayer.core
 
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_HOME
@@ -116,5 +116,7 @@ class MayerAccessibilityHelper(val ac: AccessibilityService) {
     }
 
     fun currentPackageName() = ac.rootInActiveWindow.packageName.toString()
+
+
 
 }

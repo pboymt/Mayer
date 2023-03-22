@@ -1,4 +1,4 @@
-package icu.pboymt.mayer.runner
+package icu.pboymt.mayer.core
 
 import org.opencv.android.Utils
 import org.opencv.core.Mat
