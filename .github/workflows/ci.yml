@@ -31,7 +31,7 @@ jobs:
 
       - name: Cache OpenCV4Android SDK
         id: cache-opencv
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ./opencv
           key: ${{ runner.os }}-opencv-for-android-${{ env.OPENCV_VERSION }}
@@ -51,7 +51,7 @@ jobs:
 
       - name: Cache NDK
         id: cache-ndk
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ env.ANDROID_SDK_ROOT }}/ndk/${{ env.NDK_VERSION }}
           key: ${{ runner.os }}-ndk-${{ env.NDK_VERSION }}
