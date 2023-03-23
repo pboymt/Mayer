@@ -186,7 +186,7 @@ tasks.register("listAssets") {
         assetsFile.appendText("@Keep\n")
         assetsFile.appendText("object Tpls {\n")
         assetsList.forEach {
-            val key = it.replace(".png", "").replace("-", "_").toUpperCase()
+            val key = it.replace(".png", "").replace("-", "_").uppercase()
             assetsFile.appendText("    const val $key = \"templates/$it\"\n")
         }
         assetsFile.appendText("}\n")
