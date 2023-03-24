@@ -54,7 +54,7 @@ class MayerRunner(private val helper: MayerAccessibilityHelper) {
 
     private fun notifyScriptStatus(){
         val intent = Intent(MayerAccessibilityService.ACTION_SCRIPT_STATUS_NOTIFICATION)
-        helper.ac.sendBroadcast(intent)
+        helper.service.sendBroadcast(intent)
     }
 
     @Suppress("unused")

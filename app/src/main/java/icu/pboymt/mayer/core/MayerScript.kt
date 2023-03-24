@@ -2,6 +2,7 @@ package icu.pboymt.mayer.core
 
 import android.content.Intent
 import android.util.Log
+import icu.pboymt.mayer.core.modules.MayerDisplay
 import icu.pboymt.mayer.utils.dataStore
 import org.opencv.core.Core
 import org.opencv.core.Mat
@@ -13,8 +14,8 @@ import kotlin.system.measureTimeMillis
 @Suppress("unused")
 abstract class MayerScript(val helper: MayerAccessibilityHelper) {
 
-    private val tpl = MayerTemplatesHelper(helper)
-    protected val ds = helper.ac.applicationContext.dataStore
+    private val tpl = MayerTemplatesHelper(this)
+    protected val ds = helper.service.applicationContext.dataStore
 
     protected var running = true
 
@@ -48,6 +49,7 @@ abstract class MayerScript(val helper: MayerAccessibilityHelper) {
      */
     fun afterPlay() {
         tpl.releaseAll()
+        display.release()
         Log.i(TAG, "Script ${this::class.java.simpleName} end running")
     }
 
@@ -153,10 +155,10 @@ abstract class MayerScript(val helper: MayerAccessibilityHelper) {
      */
     fun launchPackage(packageName: String): Boolean {
         return try {
-            val packageManager = helper.ac.packageManager
+            val packageManager = helper.service.packageManager
             val intent = packageManager.getLaunchIntentForPackage(packageName)
             intent?.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            helper.ac.startActivity(intent)
+            helper.service.startActivity(intent)
             true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -169,22 +171,7 @@ abstract class MayerScript(val helper: MayerAccessibilityHelper) {
             return helper.currentPackageName()
         }
 
-    inner class MayerDisplay {
-        val width: Int
-            get() {
-                return helper.ac.resources.displayMetrics.widthPixels
-            }
-        val height: Int
-            get() {
-                return helper.ac.resources.displayMetrics.heightPixels
-            }
-        val density: Float
-            get() {
-                return helper.ac.resources.displayMetrics.density
-            }
-    }
-
-    val display = MayerDisplay()
+    val display = MayerDisplay(helper)
 
     inner class Logging {
         fun i(message: String, vararg args: Any?) {

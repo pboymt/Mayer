@@ -13,7 +13,7 @@ import org.opencv.core.Mat
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class MayerAccessibilityHelper(val ac: AccessibilityService) {
+class MayerAccessibilityHelper(val service: AccessibilityService) {
 
     private var lastScreenshot: Bitmap? = null
     private var lastScreenshotMat: Mat? = null
@@ -28,8 +28,8 @@ class MayerAccessibilityHelper(val ac: AccessibilityService) {
         }
         lastScreenshot?.recycle()
         lastScreenshot = null
-        ac.takeScreenshot(
-            Display.DEFAULT_DISPLAY, ac.mainExecutor,
+        service.takeScreenshot(
+            Display.DEFAULT_DISPLAY, service.mainExecutor,
             object : AccessibilityService.TakeScreenshotCallback {
                 override fun onSuccess(screenshot: AccessibilityService.ScreenshotResult) {
                     val bitmap =
@@ -58,8 +58,8 @@ class MayerAccessibilityHelper(val ac: AccessibilityService) {
         }
         lastScreenshotMat?.release()
         lastScreenshotMat = null
-        ac.takeScreenshot(
-            Display.DEFAULT_DISPLAY, ac.mainExecutor,
+        service.takeScreenshot(
+            Display.DEFAULT_DISPLAY, service.mainExecutor,
             object : AccessibilityService.TakeScreenshotCallback {
                 override fun onSuccess(screenshot: AccessibilityService.ScreenshotResult) {
                     val bitmap =
@@ -84,7 +84,7 @@ class MayerAccessibilityHelper(val ac: AccessibilityService) {
     }
 
     fun pressHomeBtn() {
-        ac.performGlobalAction(GLOBAL_ACTION_HOME)
+        service.performGlobalAction(GLOBAL_ACTION_HOME)
     }
 
     suspend fun click(x: Int, y: Int) = suspendCoroutine {
@@ -94,7 +94,7 @@ class MayerAccessibilityHelper(val ac: AccessibilityService) {
         }
         val clickStroke = GestureDescription.StrokeDescription(clickPath, 0, 100)
         val clickGesture = GestureDescription.Builder().addStroke(clickStroke).build()
-        if (ac.dispatchGesture(clickGesture, null, null)) {
+        if (service.dispatchGesture(clickGesture, null, null)) {
             it.resume(true)
         } else {
             it.resume(false)
@@ -108,14 +108,14 @@ class MayerAccessibilityHelper(val ac: AccessibilityService) {
         }
         val swipeStroke = GestureDescription.StrokeDescription(swipePath, 0, 100)
         val swipeGesture = GestureDescription.Builder().addStroke(swipeStroke).build()
-        if (ac.dispatchGesture(swipeGesture, null, null)) {
+        if (service.dispatchGesture(swipeGesture, null, null)) {
             it.resume(true)
         } else {
             it.resume(false)
         }
     }
 
-    fun currentPackageName() = ac.rootInActiveWindow.packageName.toString()
+    fun currentPackageName() = service.rootInActiveWindow.packageName.toString()
 
 
 
