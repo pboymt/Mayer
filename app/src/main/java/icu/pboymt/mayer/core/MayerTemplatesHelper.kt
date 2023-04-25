@@ -47,12 +47,12 @@ class MayerTemplatesHelper(private val script: MayerScript) {
 
     private fun chooseAssets(): String? {
         return when (script.display.width) {
-            540 -> if (script.display.height >= 960) "540x960" else null
-            720 -> if (script.display.height >= 1280) "720x1280" else null
-            1080 -> if (script.display.height >= 1920) "1080x1920" else null
-            1220 -> if (script.display.height >= 2170) "1220x2170" else null
-            1440 -> if (script.display.height >= 2560) "1440x2560" else null
-            2160 -> if (script.display.height >= 3840) "2160x3840" else null
+            540 -> if (script.display.height >= 960) "540x960+" else null
+            720 -> if (script.display.height >= 1280) "720x1280+" else null
+            1080 -> if (script.display.height >= 1920) "1080x1920+" else null
+            1220 -> if (script.display.height >= 2170) "1220x2170+" else null
+            1440 -> if (script.display.height >= 2560) "1440x2560+" else null
+            2160 -> if (script.display.height >= 3840) "2160x3840+" else null
             else -> null
         }
     }
@@ -79,7 +79,7 @@ class MayerTemplatesHelper(private val script: MayerScript) {
     }
 
     private fun newLoadImage(name: String, assetsType: String?): Mat {
-        val assetPath = "templates/${assetsType ?: "1080x1920"}/$name"
+        val assetPath = "templates/${assetsType ?: "1080x1920+"}/$name.tpl"
         return helper.service.assets.open(assetPath).use {
             val bitmap = android.graphics.BitmapFactory.decodeStream(it)
             val mat = Mat()
