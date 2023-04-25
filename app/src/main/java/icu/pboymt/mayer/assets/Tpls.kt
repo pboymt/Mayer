@@ -2,7 +2,7 @@ package icu.pboymt.mayer.assets
 
 import androidx.annotation.Keep
 
-@Suppress("unused", "SpellCheckingInspection")
+@Suppress("SpellCheckingInspection")
 @Keep
 object Tpls {
     const val BOSS_LEVEL_HIGH_PLUS = "templates/boss-level-high-plus.png"
