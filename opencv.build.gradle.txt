@@ -94,7 +94,7 @@ apply plugin: 'kotlin-android'
 def openCVersionName = "4.7.0-dev"
 def openCVersionCode = ((4 * 100 + 7) * 100 + 0) * 10 + 0
 
-println "OpenCV: " +openCVersionName + " " + project.buildscript.sourceFile
+println "OpenCV: " + openCVersionName + " " + project.buildscript.sourceFile
 
 android {
     namespace 'org.opencv'
@@ -102,8 +102,7 @@ android {
 
     defaultConfig {
         minSdk defaultMinSdkVersion
-        targetSdkVersion 33
-
+        targetSdk 33
 
         externalNativeBuild {
             cmake {
@@ -140,11 +139,13 @@ android {
 
     externalNativeBuild {
         cmake {
-            path (project.projectDir.toString() + '/libcxx_helper/CMakeLists.txt')
+            path(project.projectDir.toString() + '/libcxx_helper/CMakeLists.txt')
         }
     }
+
     buildFeatures {
         aidl true
+        buildConfig true
     }
 }
 
