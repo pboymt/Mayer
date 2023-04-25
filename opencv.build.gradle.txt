@@ -97,14 +97,13 @@ def openCVersionCode = ((4 * 100 + 7) * 100 + 0) * 10 + 0
 println "OpenCV: " +openCVersionName + " " + project.buildscript.sourceFile
 
 android {
-    compileSdkVersion 33
+    namespace 'org.opencv'
+    compileSdk 33
 
     defaultConfig {
         minSdk defaultMinSdkVersion
         targetSdkVersion 33
 
-        versionCode openCVersionCode
-        versionName openCVersionName
 
         externalNativeBuild {
             cmake {
@@ -116,12 +115,12 @@ android {
 
     buildTypes {
         debug {
-            packagingOptions {
+            packaging {
                 doNotStrip '**/*.so'  // controlled by OpenCV CMake scripts
             }
         }
         release {
-            packagingOptions {
+            packaging {
                 doNotStrip '**/*.so'  // controlled by OpenCV CMake scripts
             }
             minifyEnabled false
@@ -143,6 +142,9 @@ android {
         cmake {
             path (project.projectDir.toString() + '/libcxx_helper/CMakeLists.txt')
         }
+    }
+    buildFeatures {
+        aidl true
     }
 }
 
